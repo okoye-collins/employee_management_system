@@ -34,8 +34,9 @@ class UserManager(BaseUserManager):
 
         return user
 
+
 EMPLOYEE_TYPE = (
-    ("Salary", "SALARY" ),
+    ("Salary", "SALARY"),
     ("Commission", 'COMMISSION'),
 )
 
@@ -56,7 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return f'{self.username} -- Employee type {self.employee_type}'
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)
@@ -64,14 +65,4 @@ class User(AbstractBaseUser, PermissionsMixin):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
-    
 
-
-
-
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(User, on_delete = models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return f'{self.user} -- Employee type {self.employee_type}'

@@ -152,3 +152,8 @@ class SetNewPasswordAPIView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         return Response({'success': True, 'message': 'password reset success'}, status=status.HTTP_200_OK)
+
+
+class NotFoundView(GenericAPIView):
+    def get(self, request):
+        return Response({'error': 'Route not found'}, status=404)

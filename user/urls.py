@@ -1,5 +1,8 @@
 from django.urls import path
-from .views import RegisterViewAPI, LoginAPIView, VerifyEmail,  RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView
+from django.views.generic import TemplateView
+
+from .views import RegisterViewAPI, LoginAPIView, VerifyEmail,  RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView, NotFoundView
+
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
@@ -12,4 +15,7 @@ urlpatterns = [
     path('password-reset/<uidb64>/<token>/', PasswordTokenCheckAPI.as_view(), name='password-reset-confirm'),
     path('password-reset-complete/', SetNewPasswordAPIView.as_view(), name='password-reset-complete '),
 
+
+    # Catch-all view for unknown routes
+    path('<path:not_found>/', NotFoundView.as_view(), name='not-found'),
 ]
