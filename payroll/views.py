@@ -7,6 +7,7 @@ from rest_framework import status
 
 from .serializers import PayRollSerializer, SalaryPaymentSerializer, CommissionPaymentSerializer, UserPayRollSerializer
 from .models import Payroll, SalaryPayment, CommissionPayment
+from .utils import PayrollService
 
 # Create your views here.
 
@@ -35,6 +36,7 @@ class SalaryPaymentDetailAPIView(GenericAPIView):
 
     permission_classes = (IsAdminUser,)
     serializer_class = SalaryPaymentSerializer
+    queryset = SalaryPayment.objects.all()
 
     def get(self, request, pk):
         try:
@@ -91,6 +93,7 @@ class CommissionPaymentDetailAPIView(GenericAPIView):
 
     permission_classes = (IsAdminUser,)
     serializer_class = CommissionPaymentSerializer
+    queryset = CommissionPayment.objects.all()
 
     def get(self, request, pk):
         try:
@@ -126,12 +129,16 @@ class CommissionPaymentDetailAPIView(GenericAPIView):
 
 class UserPayRollAPIView(GenericAPIView):
 
-    permission_classes = (IsAdminUser,)
+    # permission_classes = (IsAdminUser,)
     serializer_class = UserPayRollSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        monthly_salary = PayrollService.calculate_salary(
+            serializer.validated_data)
+        serializer.validated_data['monthly_salary'] = monthly_salary
         serializer.save()
 
         return Response({'message': 'User Payroll was created Successfully'}, status=status.HTTP_201_CREATED)
@@ -146,8 +153,9 @@ class UserPayRollAPIView(GenericAPIView):
 
 class UserPayRollDetailAPIView(GenericAPIView):
 
-    permission_classes = (IsAdminUser,)
+    # permission_classes = (IsAdminUser,)
     serializer_class = UserPayRollSerializer
+    queryset = Payroll.objects.all()
 
     def get(self, request, pk):
 
@@ -155,7 +163,7 @@ class UserPayRollDetailAPIView(GenericAPIView):
             user_payroll = Payroll.objects.get(id=pk)
         except Exception as e:
             return Response({'message': 'User payroll not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+
         serializer = self.serializer_class(user_payroll)
 
         return Response(serializer.data, status=status.HTTP_200_OK)

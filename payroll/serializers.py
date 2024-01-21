@@ -33,10 +33,13 @@ class UserPayRollSerializer(serializers.ModelSerializer):
         model = Payroll
         fields = ['user', 'customers_brought', 'monthly_salary']
 
-    def validate(self, attrs):
-        user = attrs.get('user')
 
-        if Payroll.objects.filter(user=user).exists():
-            raise serializers.ValidationError('This user already has an existing payroll profile. Please review and, if needed, update the existing profile.')
+    # def validate(self, attrs):
+    #     user = attrs.get('user')
 
-        return attrs
+    #     if Payroll.objects.filter(user=user).exists():
+    #         raise serializers.ValidationError('This user already has an existing payroll profile. Please review and, if needed, update the existing profile.')
+
+    #     return attrs
+        
+    
