@@ -154,6 +154,6 @@ class SetNewPasswordAPIView(GenericAPIView):
         return Response({'success': True, 'message': 'password reset success'}, status=status.HTTP_200_OK)
 
 
-class NotFoundView(GenericAPIView):
-    def get(self, request):
-        return Response({'error': 'Route not found'}, status=404)
+# class NotFoundView(GenericAPIView):
+#     def get(self, request):
+#         return Response({'error': 'Route not found'}, status=404)

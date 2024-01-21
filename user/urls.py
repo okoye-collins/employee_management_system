@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from .views import RegisterViewAPI, LoginAPIView, VerifyEmail,  RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView, NotFoundView
+from .views import RegisterViewAPI, LoginAPIView, VerifyEmail,  RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView
 
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -17,5 +17,5 @@ urlpatterns = [
 
 
     # Catch-all view for unknown routes
-    path('<path:not_found>/', NotFoundView.as_view(), name='not-found'),
+    # path('<path:not_found>/', NotFoundView.as_view(), name='not-found'),
 ]

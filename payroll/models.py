@@ -27,7 +27,7 @@ class CommissionPayment(models.Model):
 class Payroll(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     customers_brought = models.PositiveIntegerField(default=0)
-    monthly_salary = models.DecimalField(max_digits=10, decimal_places=2, max_length=255)
+    monthly_salary = models.DecimalField(max_digits=10, decimal_places=2, max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
