@@ -10,10 +10,6 @@ class TestSetup(APITestCase):
         self.login_url = reverse('login')
         self.salary_payment = reverse('Salary-Payment')
         self.commission_payment = reverse('commission-payment')
-        # admin_user = User.objects.create_user(username='admin', email="example@gmail.com", password='adminpass')
-        # admin_user.is_staff = True
-        # admin_user.is_superuser = True
-        # admin_user.save()
 
         self.user_data_1 = {
             'email': 'example@gmail.com',
