@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
 
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -157,3 +157,14 @@ class SetNewPasswordAPIView(GenericAPIView):
 # class NotFoundView(GenericAPIView):
 #     def get(self, request):
 #         return Response({'error': 'Route not found'}, status=404)
+    
+class ReturnUserAPIView(GenericAPIView):
+
+    permission_classes = (IsAdminUser,)
+    serializer_class = LoginSerializer
+
+    def get(self, request):
+        users = User.objects.all()
+        serializer = self.serializer_class(users, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
