@@ -18,8 +18,13 @@ class SalaryPaymentAPIView(GenericAPIView):
     serializer_class = SalaryPaymentSerializer
 
     def post(self, request):
+
+        if SalaryPayment.objects.exists():
+            return Response({'message': 'Salary Payment already exists. Only one payment is allowed.'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.serializer_class(data=request.data)
-        serializer.validate(raise_exception=True)
+        serializer.is_valid(raise_exception=True)
         serializer.save()
 
         return Response({'message': 'Salary Payment has been created Successfully'}, status=status.HTTP_201_CREATED)
@@ -55,7 +60,7 @@ class SalaryPaymentDetailAPIView(GenericAPIView):
             return Response({'message': 'Salary Payment not found'}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = self.serializer_class(salary_payment, data=request.data)
-        serializer.validate(raise_exception=True)
+        serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'message': 'Salary payment has been Updated successfully'}, status=status.HTTP_200_OK)
 
@@ -75,6 +80,10 @@ class CommissionPaymentAPIView(GenericAPIView):
     serializer_class = CommissionPaymentSerializer
 
     def post(self, request):
+
+        if CommissionPayment.objects.exists():
+            return Response({'message': 'Commission Payment already exists. Only one payment is allowed.'},
+                            status=status.HTTP_400_BAD_REQUEST)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -133,6 +142,9 @@ class UserPayRollAPIView(GenericAPIView):
     serializer_class = UserPayRollSerializer
 
     def post(self, request):
+        if Payroll.objects.filter(user=request.data['user']).exists():
+            return Response({'message': 'User already has a payroll. Cannot create duplicate payroll.'}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -153,7 +165,7 @@ class UserPayRollAPIView(GenericAPIView):
 
 class UserPayRollDetailAPIView(GenericAPIView):
 
-    # permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminUser,)
     serializer_class = UserPayRollSerializer
     queryset = Payroll.objects.all()
 

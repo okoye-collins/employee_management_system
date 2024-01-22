@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # third_party_app
     'rest_framework',
     'drf_yasg',
+    "corsheaders",
 
     # my_app
     "user",
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -62,6 +64,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "esm.urls"
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
@@ -164,5 +168,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'collins.kcj@gmail.com'
-EMAIL_HOST_PASSWORD = 'bjvhqzleuoeqcydu'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')

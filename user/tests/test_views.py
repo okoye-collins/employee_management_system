@@ -2,7 +2,7 @@ from .test_setup import TestSetup
 
 from user.models import User
 
-class TestViewss(TestSetup):
+class TestViews(TestSetup):
 
     def test_user_cannot_register_with_no_data(self):
         res = self.client.post(self.register_url)

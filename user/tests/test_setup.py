@@ -1,5 +1,6 @@
 from rest_framework.test import APITestCase
 from django.urls import reverse
+from user.models import User
 
 
 class TestSetup(APITestCase):
@@ -7,6 +8,12 @@ class TestSetup(APITestCase):
     def setUp(self):
         self.register_url = reverse('register')
         self.login_url = reverse('login')
+        self.salary_payment = reverse('Salary-Payment')
+        self.commission_payment = reverse('commission-payment')
+        # admin_user = User.objects.create_user(username='admin', email="example@gmail.com", password='adminpass')
+        # admin_user.is_staff = True
+        # admin_user.is_superuser = True
+        # admin_user.save()
 
         self.user_data_1 = {
             'email': 'example@gmail.com',
